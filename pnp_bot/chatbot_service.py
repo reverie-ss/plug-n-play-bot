@@ -18,6 +18,7 @@ from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 logger = logging.getLogger(__name__)
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 PINECONE_API_KEY = os.environ["PINECONE_API_KEY"]
+DB_NAME = "ops-bot"
 
 class Chatbot:
     """
@@ -27,7 +28,7 @@ class Chatbot:
     def __init__(self) -> None:
         # Initialize the constants and env variables
 
-        self._db_name = "ops-bot"
+        self._db_name = DB_NAME
         self._embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
         self._llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
@@ -103,11 +104,11 @@ class UploadDocuments:
     """
 
     def __init__(self) -> None:
-        self._db_name = "ops-bot"
+        self._db_name = DB_NAME
         self._embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 
 
-    def add_documents_to_existing_index(self, path):
+    def add_documents_to_index(self, path):
         """
         This function is used t add additional documents to the existing vector database
         It converts the documents into vectors and uploads it to the pinecone database
