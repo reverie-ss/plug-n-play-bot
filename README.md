@@ -23,3 +23,7 @@ This package contains a collection of useful functions that can be used to integ
 
 ### To upload documents
 1. Instantiate the UploadDocuments class and call the function `add_documents_to_index` to upload your documents. The questions will be answered only based on these documents.
+
+# Flow of the library
+
+![Flow-PnP](https://github.com/reverie-ss/plug-n-play-chatbot/assets/14177137/62c81ca2-93c7-4992-8bef-03cccb1cd7f2)
