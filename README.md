@@ -17,9 +17,9 @@ This package contains a collection of useful functions that can be used to integ
 1. Setup environment variables for `OPENAI_API_KEY` and `PINECONE_API_KEY`
 2. Install this package
 
-# Find answers for questions
+### Find answers for questions
 1. Instantiate the Chatbot class and call the function `find_answer_for_question` to get answer for your query
 
 
-# To upload documents
+### To upload documents
 1. Instantiate the UploadDocuments class and call the function `add_documents_to_index` to upload your documents. The questions will be answered only based on these documents.
