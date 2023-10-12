@@ -1,3 +1,4 @@
 openai
 pinecone-client
 langchain==0.0.266
+unstructured

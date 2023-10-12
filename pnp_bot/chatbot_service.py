@@ -16,9 +16,6 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains.qa_with_sources import load_qa_with_sources_chain
 
 logger = logging.getLogger(__name__)
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
-PINECONE_API_KEY = os.environ["PINECONE_API_KEY"]
-DB_NAME = "ops-bot"
 
 class Chatbot:
     """
@@ -28,6 +25,10 @@ class Chatbot:
     def __init__(self) -> None:
         # Initialize the constants and env variables
 
+
+        OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+        PINECONE_API_KEY = os.environ["PINECONE_API_KEY"]
+        DB_NAME = os.environ["DB_NAME"]
         self._db_name = DB_NAME
         self._embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
         self._llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
@@ -41,7 +42,7 @@ class Chatbot:
         # Initialize pinecone
         pinecone.init(
             api_key=PINECONE_API_KEY,
-            environment="us-central1-gcp",
+            environment="gcp-starter",
         )
 
         # Setup the retrieval model that will be used to find answers
@@ -94,29 +95,18 @@ class Chatbot:
             print(result)
             return result.get("answer")
 
-
-
-class UploadDocuments:
-    """
-    Class is used to upload the documents. It first converts the file into vector firmat and 
-    then uploads the vector to the Pincone Index. 
-    This vector is later used to figure out answers for questions asked by users.
-    """
-
-    def __init__(self) -> None:
-        self._db_name = DB_NAME
-        self._embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
-
-
     def add_documents_to_index(self, path):
         """
-        This function is used t add additional documents to the existing vector database
+        This function is used to add additional documents to the existing vector database
         It converts the documents into vectors and uploads it to the pinecone database
 
         Args:
          - `path` : Location of the documents in local (Currently, it does not support urls)
         """
 
+
+        # Combine multiple documents into one and Split based on character
+        
         # Combine multiple documents into one and Split based on character
         loader = DirectoryLoader(path)
         docs = loader.load()
@@ -132,4 +122,5 @@ class UploadDocuments:
         # Add additional texts to the vector database
         response = vectorstore.add_texts(texts)
 
-        print(response)
+        return response
+
